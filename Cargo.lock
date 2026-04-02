@@ -935,16 +935,7 @@ version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23f76610e969fa1784327ded240f1e28a3fd9520c9cec93b636fcf62dd37f772"
 dependencies = [
- "five8_core 1.0.0",
-]
-
-[[package]]
-name = "five8_const"
-version = "0.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "26dec3da8bc3ef08f2c04f61eab298c3ab334523e55f076354d6d6f613799a7b"
-dependencies = [
- "five8_core 0.1.2",
+ "five8_core",
 ]
 
 [[package]]
@@ -953,14 +944,8 @@ version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1a0f1728185f277989ca573a402716ae0beaaea3f76a8ff87ef9dd8fb19436c5"
 dependencies = [
- "five8_core 1.0.0",
+ "five8_core",
 ]
-
-[[package]]
-name = "five8_core"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2551bf44bc5f776c15044b9b94153a00198be06743e262afaaa61f11ac7523a5"
 
 [[package]]
 name = "five8_core"
@@ -1560,10 +1545,7 @@ checksum = "c08d65885ee38876c4f86fa503fb49d7b507c2b62552df7c70b2fce627e06381"
 name = "p-never-nonce"
 version = "0.0.0"
 dependencies = [
- "pinocchio 0.10.2",
- "pinocchio-pubkey",
- "strum",
- "strum_macros",
+ "pinocchio",
 ]
 
 [[package]]
@@ -1623,12 +1605,6 @@ dependencies = [
 
 [[package]]
 name = "pinocchio"
-version = "0.9.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b8afe4f39c0e25cc471b35b89963312791a5162d45a86578cbeaad9e5e7d1b3b"
-
-[[package]]
-name = "pinocchio"
 version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c06810dac15a4ef83d3dabdb4f2f22fb39c9adff669cd2781da4f716510a647c"
@@ -1641,14 +1617,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "pinocchio-nononce"
+name = "pinocchio-never-nonce-program"
 version = "0.0.0"
 dependencies = [
  "bincode",
  "mollusk-svm",
  "mollusk-svm-fuzz-fixture",
  "p-never-nonce",
- "pinocchio 0.10.2",
+ "pinocchio",
  "solana-account",
  "solana-hash 4.2.0",
  "solana-instruction",
@@ -1659,17 +1635,6 @@ dependencies = [
  "solana-pubkey 4.1.0",
  "solana-system-interface 3.1.0",
  "solana-sysvar",
-]
-
-[[package]]
-name = "pinocchio-pubkey"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cb0225638cadcbebae8932cb7f49cb5da7c15c21beb19f048f05a5ca7d93f065"
-dependencies = [
- "five8_const 0.1.4",
- "pinocchio 0.9.3",
- "sha2-const-stable",
 ]
 
 [[package]]
@@ -2183,7 +2148,7 @@ dependencies = [
  "borsh",
  "curve25519-dalek",
  "five8",
- "five8_const 1.0.0",
+ "five8_const",
  "serde",
  "serde_derive",
  "sha2-const-stable",
@@ -3094,24 +3059,6 @@ name = "strsim"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
-
-[[package]]
-name = "strum"
-version = "0.27.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "af23d6f6c1a224baef9d3f61e287d2761385a5b88fdab4eb4c6f11aeb54c4bcf"
-
-[[package]]
-name = "strum_macros"
-version = "0.27.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7695ce3845ea4b33927c055a39dc438a45b059f7c1b3d91d38d10355fb8cbca7"
-dependencies = [
- "heck",
- "proc-macro2",
- "quote",
- "syn 2.0.117",
-]
 
 [[package]]
 name = "subtle"

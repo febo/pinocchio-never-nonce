@@ -19,7 +19,8 @@ use {
 const SYSTEM_PROGRAM_ID: Pubkey = Pubkey::new_from_array([0u8; 32]);
 
 // A dummy program ID for testing nonnonce instructions.
-const NO_NONCE_ID: Pubkey = Pubkey::from_str_const("NoNonc3333333333333333333333333333333333333");
+const NEVER_NONCE_ID: Pubkey =
+    Pubkey::from_str_const("NeverNonc3333333333333333333333333333333333");
 
 // The size of a nonce account's state.
 const NONCE_STATE_SIZE: usize = 80;
@@ -54,7 +55,7 @@ fn refresh_nonce(accounts: &mut [(Pubkey, Account)], nonce: Pubkey, authority: P
 
 fn nononce_instruction() -> Instruction {
     Instruction {
-        program_id: NO_NONCE_ID,
+        program_id: NEVER_NONCE_ID,
         accounts: vec![AccountMeta::new_readonly(
             solana_instructions_sysvar::ID,
             false,
@@ -66,7 +67,7 @@ fn nononce_instruction() -> Instruction {
 #[test]
 #[allow(deprecated)]
 fn success_create_nonce_account() {
-    let mut mollusk = mollusk(&NO_NONCE_ID, "pinocchio_nononce");
+    let mut mollusk = mollusk(&NEVER_NONCE_ID, "pinocchio_nononce");
     mollusk.sysvars.recent_blockhashes =
         RecentBlockhashes::from_iter([IterItem(0, &Hash::new_from_array([1; 32]), 1)]);
 
@@ -105,7 +106,7 @@ fn success_create_nonce_account() {
 #[test]
 #[allow(deprecated)]
 fn reject_advance_nonce_account() {
-    let mut mollusk = mollusk(&NO_NONCE_ID, "pinocchio_nononce");
+    let mut mollusk = mollusk(&NEVER_NONCE_ID, "pinocchio_nononce");
     mollusk.sysvars.recent_blockhashes =
         RecentBlockhashes::from_iter([IterItem(0, &Hash::new_from_array([1; 32]), 1)]);
 

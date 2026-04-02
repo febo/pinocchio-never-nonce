@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["macro", "program"]
+members = ["library", "program"]
 
 [workspace.lints.rust.unexpected_cfgs]
 level = "warn"
@@ -9,7 +9,7 @@ check-cfg = [
 ]
 
 [workspace.dependencies]
-p-never-nonce = { path = "macro" }
+p-never-nonce = { path = "library" }
 mollusk-svm = "0.12"
 mollusk-svm-fuzz-fixture = "0.12"
 pinocchio = "0.10"

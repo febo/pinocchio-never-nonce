@@ -1,11 +1,13 @@
 #![no_std]
 
-use p_never_nonce::never_nonce;
-use pinocchio::{
-    ProgramResult,
-    entrypoint::{InstructionContext, MaybeAccount},
-    error::ProgramError,
-    lazy_program_entrypoint, no_allocator, nostd_panic_handler,
+use {
+    p_never_nonce::ensure_never_nonce,
+    pinocchio::{
+        ProgramResult,
+        entrypoint::{InstructionContext, MaybeAccount},
+        error::ProgramError,
+        lazy_program_entrypoint, no_allocator, nostd_panic_handler,
+    },
 };
 
 // Disable the memory allocator.
@@ -16,11 +18,8 @@ nostd_panic_handler!();
 lazy_program_entrypoint!(process_instruction);
 
 pub fn process_instruction(mut context: InstructionContext) -> ProgramResult {
-    let MaybeAccount::Account(instruction_sysvar) = context.next_account()? else {
+    let MaybeAccount::Account(instructions_sysvar) = context.next_account()? else {
         return Err(ProgramError::NotEnoughAccountKeys);
     };
-
-    never_nonce!(instruction_sysvar, ProgramError::InvalidArgument);
-
-    Ok(())
+    ensure_never_nonce(&instructions_sysvar, ProgramError::InvalidArgument)
 }
