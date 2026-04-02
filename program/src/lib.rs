@@ -16,11 +16,11 @@ nostd_panic_handler!();
 lazy_program_entrypoint!(process_instruction);
 
 pub fn process_instruction(mut context: InstructionContext) -> ProgramResult {
-    let MaybeAccount::Account(account) = context.next_account()? else {
+    let MaybeAccount::Account(instruction_sysvar) = context.next_account()? else {
         return Err(ProgramError::NotEnoughAccountKeys);
     };
 
-    never_nonce!(account, ProgramError::InvalidArgument);
+    never_nonce!(instruction_sysvar, ProgramError::InvalidArgument);
 
     Ok(())
 }
