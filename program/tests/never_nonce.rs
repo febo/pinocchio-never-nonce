@@ -53,7 +53,7 @@ fn refresh_nonce(accounts: &mut [(Pubkey, Account)], nonce: Pubkey, authority: P
     account.data = serialize(&stale_state).expect("nonce state must serialize");
 }
 
-fn nononce_instruction() -> Instruction {
+fn never_nonce_instruction() -> Instruction {
     Instruction {
         program_id: NEVER_NONCE_ID,
         accounts: vec![AccountMeta::new_readonly(
@@ -92,7 +92,7 @@ fn success_create_nonce_account() {
             // initialize nonce
             (&create_nonce[1], &[Check::success()]),
             // nonnonce instruction
-            (&nononce_instruction(), &[Check::success()]),
+            (&never_nonce_instruction(), &[Check::success()]),
         ],
         &[
             (payer, system_account_with_lamports(nonce_rent * 2)),
@@ -128,8 +128,8 @@ fn reject_advance_nonce_account() {
             (&create_nonce[0], &[Check::success()]),
             // initialize nonce
             (&create_nonce[1], &[Check::success()]),
-            // nonnonce instruction
-            (&nononce_instruction(), &[Check::success()]),
+            // never nonce instruction
+            (&never_nonce_instruction(), &[Check::success()]),
         ],
         &[
             (payer, system_account_with_lamports(nonce_rent * 2)),
@@ -148,7 +148,7 @@ fn reject_advance_nonce_account() {
     let advance_nonce = advance_nonce_account(&nonce, &authority);
 
     mollusk.process_and_validate_transaction_instructions(
-        &[advance_nonce, nononce_instruction()],
+        &[advance_nonce, never_nonce_instruction()],
         &initialized_accounts,
         &[Check::err(ProgramError::InvalidArgument)],
     );
