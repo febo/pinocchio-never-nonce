@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["program"]
+members = ["macro", "program"]
 
 [workspace.lints.rust.unexpected_cfgs]
 level = "warn"
@@ -8,15 +8,8 @@ check-cfg = [
     'cfg(target_os, values("solana"))',
 ]
 
-[workspace.metadata.spellcheck]
-config = "scripts/spellcheck.toml"
-
-[workspace.metadata.release]
-pre-release-commit-message = "Publish {{crate_name}} v{{version}}"
-tag-message = "Publish {{crate_name}} v{{version}}"
-consolidate-commits = false
-
 [workspace.dependencies]
+p-never-nonce = { path = "macro" }
 mollusk-svm = "0.12"
 mollusk-svm-fuzz-fixture = "0.12"
 pinocchio = "0.10"
