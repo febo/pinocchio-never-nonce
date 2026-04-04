@@ -11,5 +11,14 @@ readme = "../README.md"
 [lib]
 crate-type = ["rlib"]
 
+[features]
+cpi = ["pinocchio/cpi"]
+instruction = ["dep:solana-address", "dep:solana-instruction"]
+
 [dependencies]
 pinocchio = { workspace = true }
+solana-address = { workspace = true, optional = true }
+solana-instruction = { workspace = true, optional = true }
+
+[dev-dependencies]
+solana-address = { workspace = true, features = ["decode"] }

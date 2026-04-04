@@ -3,9 +3,9 @@ use solana_sysvar::recent_blockhashes::{IterItem, RecentBlockhashes};
 use {
     bincode::serialize,
     mollusk_svm::{Mollusk, result::Check},
+    p_never_nonce::{PROGRAM_ID, instruction::never_nonce},
     solana_account::Account,
     solana_hash::Hash,
-    solana_instruction::{AccountMeta, Instruction},
     solana_nonce::{
         state::{Data as NonceData, DurableNonce, State as NonceState},
         versions::Versions,
@@ -17,10 +17,6 @@ use {
 
 // System program ID.
 const SYSTEM_PROGRAM_ID: Pubkey = Pubkey::new_from_array([0u8; 32]);
-
-// A dummy program ID for testing nonnonce instructions.
-const NEVER_NONCE_ID: Pubkey =
-    Pubkey::from_str_const("NeverNonc3333333333333333333333333333333333");
 
 // The size of a nonce account's state.
 const NONCE_STATE_SIZE: usize = 80;
@@ -53,21 +49,10 @@ fn refresh_nonce(accounts: &mut [(Pubkey, Account)], nonce: Pubkey, authority: P
     account.data = serialize(&stale_state).expect("nonce state must serialize");
 }
 
-fn never_nonce_instruction() -> Instruction {
-    Instruction {
-        program_id: NEVER_NONCE_ID,
-        accounts: vec![AccountMeta::new_readonly(
-            solana_instructions_sysvar::ID,
-            false,
-        )],
-        data: vec![],
-    }
-}
-
 #[test]
 #[allow(deprecated)]
 fn success_create_nonce_account() {
-    let mut mollusk = mollusk(&NEVER_NONCE_ID, "pinocchio_nononce");
+    let mut mollusk = mollusk(&PROGRAM_ID, "pinocchio_never_nonce_program");
     mollusk.sysvars.recent_blockhashes =
         RecentBlockhashes::from_iter([IterItem(0, &Hash::new_from_array([1; 32]), 1)]);
 
@@ -92,7 +77,7 @@ fn success_create_nonce_account() {
             // initialize nonce
             (&create_nonce[1], &[Check::success()]),
             // nonnonce instruction
-            (&never_nonce_instruction(), &[Check::success()]),
+            (&never_nonce(), &[Check::success()]),
         ],
         &[
             (payer, system_account_with_lamports(nonce_rent * 2)),
@@ -106,7 +91,7 @@ fn success_create_nonce_account() {
 #[test]
 #[allow(deprecated)]
 fn reject_advance_nonce_account() {
-    let mut mollusk = mollusk(&NEVER_NONCE_ID, "pinocchio_nononce");
+    let mut mollusk = mollusk(&PROGRAM_ID, "pinocchio_never_nonce_program");
     mollusk.sysvars.recent_blockhashes =
         RecentBlockhashes::from_iter([IterItem(0, &Hash::new_from_array([1; 32]), 1)]);
 
@@ -129,7 +114,7 @@ fn reject_advance_nonce_account() {
             // initialize nonce
             (&create_nonce[1], &[Check::success()]),
             // never nonce instruction
-            (&never_nonce_instruction(), &[Check::success()]),
+            (&never_nonce(), &[Check::success()]),
         ],
         &[
             (payer, system_account_with_lamports(nonce_rent * 2)),
@@ -148,7 +133,7 @@ fn reject_advance_nonce_account() {
     let advance_nonce = advance_nonce_account(&nonce, &authority);
 
     mollusk.process_and_validate_transaction_instructions(
-        &[advance_nonce, never_nonce_instruction()],
+        &[advance_nonce, never_nonce()],
         &initialized_accounts,
         &[Check::err(ProgramError::InvalidArgument)],
     );

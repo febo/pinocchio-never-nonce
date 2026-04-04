@@ -1546,6 +1546,8 @@ name = "p-never-nonce"
 version = "0.1.0"
 dependencies = [
  "pinocchio",
+ "solana-address 2.5.0",
+ "solana-instruction",
 ]
 
 [[package]]
@@ -1628,7 +1630,6 @@ dependencies = [
  "solana-account",
  "solana-hash 4.2.0",
  "solana-instruction",
- "solana-instructions-sysvar",
  "solana-logger",
  "solana-nonce",
  "solana-program-error",

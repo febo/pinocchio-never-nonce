@@ -4,12 +4,12 @@ members = ["library", "program"]
 
 [workspace.lints.rust.unexpected_cfgs]
 level = "warn"
-check-cfg = [
-    'cfg(target_os, values("solana"))',
-]
+check-cfg = ['cfg(target_os, values("solana"))']
 
 [workspace.dependencies]
-p-never-nonce = { path = "library" }
 mollusk-svm = "0.12"
 mollusk-svm-fuzz-fixture = "0.12"
+p-never-nonce = { path = "library" }
 pinocchio = "0.10"
+solana-address = "2.0"
+solana-instruction = "3.0"
