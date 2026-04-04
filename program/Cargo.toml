@@ -9,6 +9,7 @@ edition = "2024"
 readme = "../README.md"
 
 [lib]
+name = "pinocchio_never_nonce_program"
 crate-type = ["cdylib"]
 
 [dependencies]
