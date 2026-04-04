@@ -9,14 +9,14 @@ inputs:
     description: Rust toolchain to install. Comma-separated string of [`stable`, `nightly`].
     required: false
   components:
-    description: Cargo components to install. Comma-separated string of [`audit`, `hack`, `release`, `semver-checks`].
+    description: Cargo components to install. Comma-separated string of [`audit`, `hack`, `release`, `semver-checks`, `sort`].
     required: false
   solana:
     description: Install Solana if `true`. Defaults to `false`.
     required: false
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Set Environment Variables
       shell: bash
@@ -27,70 +27,71 @@ runs:
 
     - name: Install Rust 'stable' Toolchain
       if: ${{ contains(inputs.toolchain, 'stable') }}
-      uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc  # v1.9.0
+      uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc # v1.9.0
       with:
         toolchain: ${{ env.RUST_TOOLCHAIN }}
-        cache: false
-        rustflags: ""
 
     - name: Install Rust 'nightly' Toolchain
       if: ${{ contains(inputs.toolchain, 'nightly') }}
-      uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc  # v1.9.0
+      uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc # v1.9.0
       with:
         toolchain: ${{ env.RUST_TOOLCHAIN_NIGHTLY }}
-        components: rustfmt
-        cache: false
-        rustflags: ""
+        components: clippy, rustfmt
 
     - name: Install Solana
       if: ${{ inputs.solana == 'true' }}
-      uses: solana-program/actions/install-solana@678f622be092844a943327c17430401d871e6998  # v1
+      uses: solana-program/actions/install-solana@678f622be092844a943327c17430401d871e6998 # v1
       with:
         version: ${{ env.SOLANA_CLI_VERSION }}
         cache: true
 
     - name: Install 'cargo-audit'
       if: ${{ contains(inputs.components, 'audit') }}
-      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182  # v2.69.10
+      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182 # v2.69.10
       with:
         tool: cargo-audit
 
     - name: Install 'cargo-hack'
       if: ${{ contains(inputs.components, 'hack') }}
-      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182  # v2.69.10
+      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182 # v2.69.10
       with:
         tool: cargo-hack
 
     - name: Install 'cargo-release'
       if: ${{ contains(inputs.components, 'release') }}
-      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182  # v2.69.10
+      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182 # v2.69.10
       with:
         tool: cargo-release
 
     - name: Install 'cargo-semver-checks'
       if: ${{ contains(inputs.components, 'semver-checks') }}
-      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182  # v2.69.10
+      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182 # v2.69.10
       with:
         tool: cargo-semver-checks@0.41.0
 
     - name: Install 'cargo-miri'
-      if: ${{ contains(inputs.toolchain, 'lint') }}
-      uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc  # v1.9.0
+      if: ${{ contains(inputs.components, 'miri') }}
+      uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc # v1.9.0
       with:
-        toolchain: ${{ env.TOOLCHAIN_LINT }}
+        toolchain: ${{ env.RUST_TOOLCHAIN_NIGHTLY }}
         components: miri
-        cache: false
-        rustflags: ""
 
     - name: Install 'cargo-spellcheck'
       if: ${{ contains(inputs.components, 'spellcheck') }}
-      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182  # v2.69.10
+      uses: taiki-e/install-action@7627fb428e65e78e2ec9a24ae5c5bd5f8553f182 # v2.69.10
       with:
         tool: cargo-spellcheck
 
+    - name: Install 'cargo-sort'
+      if: ${{ contains(inputs.components, 'sort') }}
+      uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc # v1.9.0
+      with:
+        toolchain: ${{ env.RUST_TOOLCHAIN_NIGHTLY }}
+        components: sort
+
     - name: Cache Cargo Dependencies
       if: ${{ inputs.cargo-cache-key }}
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4.3.0
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: |
           ~/.cargo/bin/

@@ -43,6 +43,7 @@ jobs:
         with:
           cargo-cache-key: cargo-${{ matrix.member }}
           toolchain: stable, nightly
+          componets: sort
           solana: true
 
       - name: fmt
