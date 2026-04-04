@@ -2,11 +2,10 @@
 name = "pinocchio-never-nonce-program"
 description = "A program failing if the first instruction on a transaction is an advance nonce"
 version = "0.0.0"
-repository = "https://github.com/febo/pinocchio-never-nonce/"
-authors = ["Cavey Cool <caveycool@gmail.com>", "febo <febo@anza.xyz>"]
-license = "Apache-2.0"
-edition = "2024"
-readme = "../README.md"
+repository = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
 
 [lib]
 name = "pinocchio_never_nonce_program"

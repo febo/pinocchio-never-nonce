@@ -2,6 +2,12 @@
 resolver = "2"
 members = ["library", "program"]
 
+[workspace.package]
+repository = "https://github.com/febo/pinocchio-never-nonce/"
+authors = ["Cavey Cool <caveycool@gmail.com>", "febo <febo@anza.xyz>"]
+license = "Apache-2.0"
+edition = "2024"
+
 [workspace.lints.rust.unexpected_cfgs]
 level = "warn"
 check-cfg = ['cfg(target_os, values("solana"))']

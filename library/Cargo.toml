@@ -2,11 +2,11 @@
 name = "p-never-nonce"
 description = "Ensure a transaction does not include an advance nonce instruction"
 version = "0.1.0"
-repository = "https://github.com/febo/pinocchio-never-nonce/"
-authors = ["Cavey Cool <caveycool@gmail.com>", "febo <febo@anza.xyz>"]
-license = "Apache-2.0"
-edition = "2024"
 readme = "../README.md"
+repository = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+edition = { workspace = true }
 
 [lib]
 crate-type = ["rlib"]
