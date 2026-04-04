@@ -14,6 +14,9 @@ inputs:
   solana:
     description: Install Solana if `true`. Defaults to `false`.
     required: false
+  agave:
+    description: Install required packages for Agave if `true`. Defaults to `false`.
+    required: false
 
 runs:
   using: "composite"
@@ -88,6 +91,11 @@ runs:
       with:
         toolchain: ${{ env.RUST_TOOLCHAIN_NIGHTLY }}
         components: sort
+
+    - name: Install Agave build dependencies
+      if: ${{ inputs.agave == 'true' }}
+      shell: bash
+      run: sudo apt update && sudo apt install -y libudev-dev protobuf-compiler
 
     - name: Cache Cargo Dependencies
       if: ${{ inputs.cargo-cache-key }}

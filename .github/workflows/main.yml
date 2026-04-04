@@ -45,6 +45,7 @@ jobs:
           toolchain: stable, nightly
           componets: sort
           solana: true
+          agave: true
 
       - name: fmt
         run: make format-check-${{ matrix.member }}
