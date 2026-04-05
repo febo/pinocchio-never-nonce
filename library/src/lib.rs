@@ -1,6 +1,7 @@
 //! Ensure a transaction does not include an advance nonce instruction.
 //!
-//! There are 2 ways you can ensure a transaction does not include an advance nonce instruction.
+//! There are 2 ways you can ensure a transaction does not include an advance
+//! nonce instruction.
 //!
 //! # 1) Library
 //!
@@ -80,7 +81,9 @@
 //! }
 //! ```
 //!
-//! You can also get a `solana_instruction::Instruction` to perform the cross-program invocation. Add `p-never-nonce` as a dependency with the `"instruction"` feature enabled:
+//! You can also get a `solana_instruction::Instruction` to perform the
+//! cross-program invocation. Add `p-never-nonce` as a dependency with the
+//! `"instruction"` feature enabled:
 //!
 //! ```text
 //! cargo add p-never-nonce --features instruction
