@@ -9,7 +9,7 @@ Prevent the use of durable nonces in a transaction.
 
 ## Usage
 
-There are 3 ways you can ensure a transaction does not include an advance nonce instruction.
+There are 2 ways you can ensure a transaction does not include an advance nonce instruction.
 
 
 ### 1) Library
@@ -90,27 +90,16 @@ pub fn process_instruction(mut context: InstructionContext) -> ProgramResult {
 }
 ```
 
-### 3) Instruction guard
-
-Add `p-never-nonce` as a dependency with the `"instruction"` feature enabled:
+You can also get a `solana_instruction::Instruction` to perform the cross-program invocation. Add `p-never-nonce` as a dependency with the `"instruction"` feature enabled:
 
 ```
 cargo add p-never-nonce --features instruction
 ```
 
-Add a "never-nonce" instruction to your transaction.
-
-#### Example
+Then use:
 
 ```rust
-let never_nonce_ix = p_never_nonce::instruction::never_nonce();
-
-let tx = Transaction::new_signed_with_payer(
-    &[some_other_ix, never_nonce_ix],
-    Some(&payer.pubkey()),
-    &[&payer],
-    connection.get_latest_blockhash()?,
-);
+let never_nonce_ix = p_never_nonce::instruction::never_nonce();`
 ```
 
 ## Verification
