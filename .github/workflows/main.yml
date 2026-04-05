@@ -60,7 +60,9 @@ jobs:
         run: make test-${{ matrix.member }}
 
       - name: build-doc
+        if: matrix.member == 'library'
         run: make build-doc-${{ matrix.member }}
 
       - name: test-doc
+        if: matrix.member == 'library'
         run: make test-doc-${{ matrix.member }}
