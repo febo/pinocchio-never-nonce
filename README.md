@@ -114,14 +114,17 @@ You can verify it by checking out the repository at the tag `program@v1.0.0` and
 S solana-verify build --library-name pinocchio_never_nonce_program --cargo-build-sbf-args="--tools-version v1.54"
 ```
 
+> 📝 Note: Currently it is necessary to use unreleased version of solana-verifiable-build ([PR](https://github.com/solana-foundation/solana-verifiable-build/pull/274)) to support passing the extra `--cargo-build-sbf-args` flag).
+
 Once the program is built, it is possible to verify it by running:
 ```
 S solana-verify get-executable-hash target/deploy/pinocchio_never_nonce_program.so
 ```
 
-The expected hash value is `f9f145339d050163327b345e035a94adfee2b3f68cc8b5d41487403ab0d1f32f`.
-
-> 📝 Note: Currently it is necessary to use unreleased version of solana-verifiable-build ([PR](https://github.com/solana-foundation/solana-verifiable-build/pull/274)) to support passing the extra `--cargo-build-sbf-args` flag).
+The expected hash value is `f9f145339d050163327b345e035a94adfee2b3f68cc8b5d41487403ab0d1f32f`, which matches the on-chain deployed program hash:
+```
+$ solana-verify get-program-hash -u <MAINNET_RPC_URL> pnn1ctaR1tbP7EGrcz3WtrJKknRxKmKqADztKY9C3YJ
+```
 
 ## License
 
